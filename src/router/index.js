@@ -17,31 +17,30 @@ const router = new VueRouter({
     routes
 });
 
-router.beforeEach((to, _, next) => {
+router.beforeEach(async (to, _, next) => {
     store.dispatch('setLoadingComponent', true);
     // const nearestWithTitle = to.matched.slice().reverse().find(r => r.meta && r.meta.title);
     // const nearestWithMeta = to.matched.slice().reverse().find(r => r.meta && r.meta.metaTags);
     // setMetaData(nearestWithTitle, nearestWithMeta);
     if (to.query.bubble && to.query.roomId) {
-        const {bubble, roomId} = to.query;
-        window.localStorage.setItem("bubble", bubble);
-        window.localStorage.setItem("roomId", roomId);
+        const { bubble, roomId } = to.query;
         store.dispatch('events/loadEvents', roomId);
         store.commit('events/setBubble', bubble);
+        store.commit('events/setRoomId', roomId);
         next();
     } else if (store.getters['events/currentEvent'] && store.getters['events/bubble']) {
         next();
-    } else if (window.localStorage.getItem("bubble") && window.localStorage.getItem("event")) {
-        store.commit('events/setBubble', window.localStorage.getItem("bubble"));
-        store.commit('events/setCurrentEvent', window.localStorage.getItem("event"));
+    } else if (await JSON.parse(window.localStorage.getItem("bubble")) !== null && await JSON.parse(window.localStorage.getItem("event") !== null)) {
+        store.commit('events/setBubble', await JSON.parse(window.localStorage.getItem("bubble")));
+        store.commit('events/setCurrentEvent', await JSON.parse(window.localStorage.getItem("event")));
         next();
-    } else if (window.localStorage.getItem("bubble") && window.localStorage.getItem("roomId")) {
-        store.commit('events/setBubble', window.localStorage.getItem("bubble"));
-        store.dispatch('events/loadEvents', window.localStorage.getItem("roomId"));
+    } else if (await JSON.parse(window.localStorage.getItem("bubble")) !== null && await JSON.parse(window.localStorage.getItem("roomId") !== null)) {
+        store.commit('events/setBubble', await JSON.parse(window.localStorage.getItem("bubble")));
+        store.dispatch('events/loadEvents', await JSON.parse(window.localStorage.getItem("roomId")));
         next();
     } else {
-        next('/noEvent')
-    } 
+      next('/noEvent');
+    }
 });
 
 // const setMetaData = (title, meta) =>  {

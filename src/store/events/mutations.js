@@ -2,11 +2,20 @@ export default {
     setCurrentTime(state, payload) {
         state.currentTime = payload;
     },
-    setCurrentEvent(state, payload) {
+    async setCurrentEvent(state, payload) {
         state.currentEvent = payload;
-        window.localStorage.setItem('event', payload)
+        if (payload == null){
+            await window.localStorage.setItem('event', JSON.stringify(payload));
+        } else {
+            await window.localStorage.setItem('event', JSON.stringify(payload));
+        }
     },
-    setBubble(state, payload) {
+    async setBubble(state, payload) {
         state.bubble = payload;
+        await window.localStorage.setItem('bubble', JSON.stringify(payload));
+    },
+    async setRoomId(state, payload) {
+        state.roomId = payload;
+        await window.localStorage.setItem('roomId', JSON.stringify(payload));
     }
 }
