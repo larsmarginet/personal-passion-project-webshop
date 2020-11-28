@@ -18,6 +18,9 @@ export default {
         event() {
             return this.$store.getters['events/currentEvent'] ? this.$store.getters['events/currentEvent'] : {};
         }
+    },
+    mounted() {
+        this.$store.dispatch('setLoadingComponent', false);
     }
 }
 </script>

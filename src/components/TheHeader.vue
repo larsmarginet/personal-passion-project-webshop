@@ -1,5 +1,6 @@
 <template>
-     <v-app-bar app color="primary" flat>
+    <v-app-bar app color="primary" flat>
+        <v-progress-linear :active="loadingComponent" :indeterminate="loadingComponent" absolute bottom color="light-blue accent-4"></v-progress-linear>
         <v-avatar size="40">
             <img :src="event.bandLogo" :alt="event.bandName" v-if="event" >
         </v-avatar>
@@ -13,7 +14,7 @@
         <v-container style="maxWidth: 35px" class="px-0">
             <v-icon v-if="shop" large dark>shopping_cart</v-icon>
         </v-container>
-     </v-app-bar>
+    </v-app-bar>
 </template>
 
 <script>
@@ -24,7 +25,10 @@ export default {
         },
         shop() {
             return false;
-        }
+        },
+        loadingComponent() {
+            return this.$store.getters['loadingComponent'];
+        },
     }
 }
 </script>
