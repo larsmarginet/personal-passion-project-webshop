@@ -48,6 +48,13 @@ const routes = [
     },
     component: () => import(/* webpackChunkName: "EventOver" */ '../views/EventOver.vue')
   },
+  {
+    path: '*',
+    meta: {
+      requiresAuth: true
+    },
+    component: () => import(/* webpackChunkName: "NotFound" */ '../views/NotFound.vue'),
+  }
 ]
 
 const router = new VueRouter({
