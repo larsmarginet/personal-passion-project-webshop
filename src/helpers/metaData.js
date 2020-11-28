@@ -1,5 +1,5 @@
 const home = {
-    title: 'Home',
+    title: 'home',
     metaTags: [
         {
             name: 'description',
@@ -8,6 +8,20 @@ const home = {
         {
             name: 'og:description',
             content: 'Concery is a platform that enhances live concert experiences. Let visitors order their drinks and merch online!'
+        }
+    ]
+};
+
+const menu = {
+    title: 'food & drinks',
+    metaTags: [
+        {
+            name: 'description',
+            content: 'Order your food & drinks here, right from your seat.'
+        },
+        {
+            name: 'og:description',
+            content: 'Order your food & drinks here, right from your seat.'
         }
     ]
 };
@@ -43,5 +57,6 @@ const eventOver = {
 export {
     home,
     noEvent,
-    eventOver
+    eventOver,
+    menu
 }

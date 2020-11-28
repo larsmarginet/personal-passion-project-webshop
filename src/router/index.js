@@ -21,6 +21,16 @@ const routes = [
     redirect: '/'
   },
   {
+    path: '/menu',
+    name: 'Menu',
+    meta: {
+      title: metaData.menu.title,
+      description: metaData.menu.description,
+      requiresAuth: true 
+    },
+    component: () => import(/* NoEvent: "Menu" */ '../views/Menu.vue')
+  },
+  {
     path: '/noEvent',
     name: 'NoEvent',
     meta: {
