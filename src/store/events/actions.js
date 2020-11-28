@@ -6,11 +6,12 @@ export default {
         const currentTime = (new Date()).getTime();
         ctx.commit('setCurrentTime', currentTime);
         try {
-            const result = await firebase.eventsCollection.where('roomId', '==', payload).where('start', '<=', currentTime).orderBy('start', 'asc').limit(1).get();
+            const result = await firebase.eventsCollection.where('roomId', '==', payload).where('end', '>=', currentTime).get();
             if (!result.empty) {
                 result.forEach(event => {
                     const fetchedEvent = event.data();
-                    if (fetchedEvent.end >= currentTime) {
+                    fetchedEvent.id = event.id;
+                    if (fetchedEvent.start <= currentTime) {
                         ctx.commit('setCurrentEvent', event.data());
                     } else {
                         ctx.commit('setCurrentEvent', null);
