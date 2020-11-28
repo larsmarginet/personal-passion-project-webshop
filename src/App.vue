@@ -1,5 +1,6 @@
 <template>
     <v-app style="background: #F2F2F2">
+        <TheHeader />
         <v-main class="ma-4">
             <transition name="fade" mode="out-in">
                 <router-view></router-view>
@@ -9,8 +10,12 @@
 </template>
 
 <script>
+import TheHeader from './components/TheHeader'
 export default {
     name: 'App',
+    components: {
+        TheHeader
+    },
     mounted() {
        this.$store.dispatch('events/checkEventExperation')
     }

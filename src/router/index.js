@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import store from '../store/index';
-import * as metaData from '../helpers/metaData'
+import * as metaData from '../helpers/metaData';
 
 Vue.use(VueRouter)
 
