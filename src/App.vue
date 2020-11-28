@@ -6,15 +6,19 @@
                 <router-view></router-view>
             </transition>
         </v-main>
+        <TheFooter />
     </v-app>
 </template>
 
 <script>
-import TheHeader from './components/TheHeader'
+import TheHeader from './components/TheHeader';
+import TheFooter from './components/TheFooter';
+
 export default {
     name: 'App',
     components: {
-        TheHeader
+        TheHeader,
+        TheFooter,
     },
     mounted() {
        this.$store.dispatch('events/checkEventExperation')
