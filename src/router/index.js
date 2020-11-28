@@ -13,8 +13,8 @@ const routes = [
 ]
 
 const router = new VueRouter({
-  mode: "history",
-  routes
+    mode: "history",
+    routes
 });
 
 router.beforeEach((to, _, next) => {
@@ -22,7 +22,26 @@ router.beforeEach((to, _, next) => {
     // const nearestWithTitle = to.matched.slice().reverse().find(r => r.meta && r.meta.title);
     // const nearestWithMeta = to.matched.slice().reverse().find(r => r.meta && r.meta.metaTags);
     // setMetaData(nearestWithTitle, nearestWithMeta);
-    next();
+    if (to.query.bubble && to.query.roomId) {
+        const {bubble, roomId} = to.query;
+        window.localStorage.setItem("bubble", bubble);
+        window.localStorage.setItem("roomId", roomId);
+        store.dispatch('events/loadEvents', roomId);
+        store.commit('events/setBubble', bubble);
+        next();
+    } else if (store.getters['events/currentEvent'] && store.getters['events/bubble']) {
+        next();
+    } else if (window.localStorage.getItem("bubble") && window.localStorage.getItem("event")) {
+        store.commit('events/setBubble', window.localStorage.getItem("bubble"));
+        store.commit('events/setCurrentEvent', window.localStorage.getItem("event"));
+        next();
+    } else if (window.localStorage.getItem("bubble") && window.localStorage.getItem("roomId")) {
+        store.commit('events/setBubble', window.localStorage.getItem("bubble"));
+        store.dispatch('events/loadEvents', window.localStorage.getItem("roomId"));
+        next();
+    } else {
+        next('/noEvent')
+    } 
 });
 
 // const setMetaData = (title, meta) =>  {
