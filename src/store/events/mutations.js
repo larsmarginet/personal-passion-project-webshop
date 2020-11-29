@@ -4,11 +4,7 @@ export default {
     },
     async setCurrentEvent(state, payload) {
         state.currentEvent = payload;
-        if (payload == null){
-            await window.localStorage.setItem('event', JSON.stringify(payload));
-        } else {
-            await window.localStorage.setItem('event', JSON.stringify(payload));
-        }
+        await window.localStorage.setItem('event', JSON.stringify(payload));
     },
     async setBubble(state, payload) {
         state.bubble = payload;

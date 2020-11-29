@@ -31,14 +31,22 @@ export default {
 
     async checkEventExperation(ctx) {
         const currentEvent = await JSON.parse(window.localStorage.getItem('event'));
+        if (currentEvent && currentEvent.end < (new Date().getTime())) {
+            ctx.dispatch('clearAll');
+            return;
+        }
         const checkExperationInterval = setInterval(() => {
             if (currentEvent && currentEvent.end < (new Date().getTime())) {
-                ctx.commit('setCurrentEvent', null);
-                ctx.commit('setBubble', null);
-                ctx.commit('setRoomId', null);
-                clearInterval(checkExperationInterval);
-                router.replace('/eventOver');
+                ctx.dispatch('clearAll');
+                clearInterval(checkExperationInterval); 
             }
         }, 15000);
+    },
+
+    clearAll(ctx) {
+        ctx.commit('setCurrentEvent', null);
+        ctx.commit('setBubble', null);
+        ctx.commit('setRoomId', null);
+        router.replace('/eventOver');
     }
 }
