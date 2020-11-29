@@ -10,6 +10,7 @@ export default {
             result.forEach(item => {
                 const drink = item.data();
                 drink.id = item.id;
+                drink.quantity = 0;
                 menu.push(drink);
             });
             ctx.commit('setMenu', menu);

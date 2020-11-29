@@ -7,21 +7,27 @@
         <div v-else-if="!loading && menu"> 
             <article v-for="filter in filters" :key="filter">
                 <h3 class="display-1 py-2">{{filter}}</h3>
-                <MenuCard v-for="item in filteredMenu(filter)" :key="item.id" :item="item"/>
+                <MenuCard v-for="item in filteredMenu(filter)" :key="item.id" :item="item" @decrementQuantity="handleDecrementQuantity" @incrementQuantity="handleIncrementQuantity"/>
             </article>
+        </div>
+        <div class="orders">
+            <MenuOrders :orders="orders" @decrementQuantity="handleDecrementQuantity" @incrementQuantity="handleIncrementQuantity"/>
         </div>
     </section>
 </template>
 
 <script>
 import MenuCard from '../components/MenuCard';
+import MenuOrders from '../components/MenuOrders';
 export default {
     components: {
-        MenuCard
+        MenuCard,
+        MenuOrders
     },
     data() {
         return {
-            filters: ['soda', 'beer', 'wine', 'liquor', 'hot', 'snacks']
+            filters: ['soda', 'beer', 'wine', 'liquor', 'hot', 'snacks'],
+            orders: [],
         }
     },
     computed: {
@@ -36,6 +42,27 @@ export default {
         filteredMenu(filter) {
             return this.menu ? this.menu.filter(item => item.category === filter) : null;
         },
+        handleDecrementQuantity(id) {
+            const item = this.orders.find(item => item.id === id);
+            if (item.quantity > 1) {
+                item.quantity--;
+            } else {
+                const index = this.orders.findIndex(item => item.id === id);
+                this.orders.splice(index, 1);
+                const menuItem = this.menu.find(item => item.id === id);
+                menuItem.quantity = 0;
+            }
+        },
+        handleIncrementQuantity(id) {
+            const item = this.menu.find(item => item.id === id);
+            const alreadyExists = this.orders.find(item => item.id === id);
+            if (alreadyExists) {
+                alreadyExists.quantity++;
+            } else {
+                item.quantity++;
+                this.orders.push(item);
+            }
+        }
     },
     mounted() {
         this.$store.dispatch('setLoadingComponent', false);
@@ -43,3 +70,12 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+.orders {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+}
+</style>
