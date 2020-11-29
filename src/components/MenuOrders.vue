@@ -6,7 +6,7 @@
                     <v-btn fab depressed text  @click="closeSheet"><v-icon class="primary--text">highlight_off</v-icon></v-btn>
                 </v-row>
                 <v-card-text style="overflowY: scroll; maxWidth: 600px" class="mx-auto">
-                    <swipe-list ref="list" class="card" :disabled="!enabled" :items="orders" item-key="id">
+                    <swipe-list ref="list" class="card" :items="orders" item-key="id">
                         <template v-slot="{ item }">
                             <div class="card-content mb-2">
                                 <MenuOrderCard :order="item" @decrementQuantity="handleDecrementQuantity" @incrementQuantity="handleIncrementQuantity"/>
@@ -54,13 +54,11 @@ export default {
     },
     components: {
         MenuOrderCard,
-        // SwipeOut,
         SwipeList
     },
     data() {
         return {
             modal: false,
-            enabled: true,
         }
     },
     computed: {
