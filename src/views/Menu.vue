@@ -5,13 +5,13 @@
             <v-skeleton-loader type="list-item-avatar-two-line" class="mb-4" v-for="n in 3" :key="n"></v-skeleton-loader>
         </v-container>
         <div v-else-if="!loading && menu"> 
-            <article v-for="filter in filters" :key="filter">
+            <article v-for="filter in filters" :key="filter" style="maxWidth: 600px" class="mx-auto">
                 <h3 class="display-1 py-2">{{filter}}</h3>
                 <MenuCard v-for="item in filteredMenu(filter)" :key="item.id" :item="item" @decrementQuantity="handleDecrementQuantity" @incrementQuantity="handleIncrementQuantity"/>
             </article>
         </div>
         <div class="orders">
-            <MenuOrders :orders="orders" @decrementQuantity="handleDecrementQuantity" @incrementQuantity="handleIncrementQuantity"/>
+            <MenuOrders :orders="orders" @decrementQuantity="handleDecrementQuantity" @incrementQuantity="handleIncrementQuantity" @removeOrder="handleRemoveOrder"/>
         </div>
     </section>
 </template>
@@ -62,6 +62,12 @@ export default {
                 item.quantity++;
                 this.orders.push(item);
             }
+        },
+        handleRemoveOrder(id) {
+            const index = this.orders.findIndex(item => item.id === id);
+            this.orders.splice(index, 1);
+            const menuItem = this.menu.find(item => item.id === id);
+            menuItem.quantity = 0;
         }
     },
     mounted() {

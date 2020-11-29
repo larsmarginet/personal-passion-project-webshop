@@ -1,5 +1,5 @@
 <template>
-    <v-card flat class="mb-4 rounded-lg mx-2" max-width="600">
+    <v-card flat class="rounded-lg">
         <v-row class="pl-3">
             <v-col cols="4" sm="2">
                 <v-responsive :aspect-ratio="1/1" style="maxWidth: 70px; maxHeight: 70px" class="rounded-lg">

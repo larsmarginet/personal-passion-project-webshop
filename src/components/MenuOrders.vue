@@ -3,10 +3,21 @@
         <v-bottom-sheet v-model="modal" scrollable>
             <v-card class="rounded-t-xl grey lighten-4" height="80vh">
                 <v-row justify="end" class="ma-0" style="maxHeight: 50px">
-                    <v-btn fab depressed text  @click="modal = !modal"><v-icon class="primary--text">highlight_off</v-icon></v-btn>
+                    <v-btn fab depressed text  @click="closeSheet"><v-icon class="primary--text">highlight_off</v-icon></v-btn>
                 </v-row>
-                <v-card-text style="overflowY: scroll">
-                    <MenuOrderCard v-for="order in orders" :key="order.id" :order="order" @decrementQuantity="handleDecrementQuantity" @incrementQuantity="handleIncrementQuantity"/>
+                <v-card-text style="overflowY: scroll; maxWidth: 600px" class="mx-auto">
+                    <swipe-list ref="list" class="card" :disabled="!enabled" :items="orders" item-key="id">
+                        <template v-slot="{ item }">
+                            <div class="card-content mb-2">
+                                <MenuOrderCard :order="item" @decrementQuantity="handleDecrementQuantity" @incrementQuantity="handleIncrementQuantity"/>
+                            </div>
+                        </template>
+                        <template v-slot:right="{ item }">
+                            <div class="swipeout-action error delete-card mb-2" title="remove" @click="removeOrder(item.id)" @keypress.enter="removeOrder(item.id)">
+                                <v-icon class="white--text px-5">delete</v-icon>
+                            </div>
+                        </template>
+                    </swipe-list>
                 </v-card-text>
                 <v-card-actions>
                     <v-col>
@@ -32,6 +43,7 @@
 </template>
 
 <script>
+import { SwipeList } from 'vue-swipe-actions';
 import MenuOrderCard from '../components/MenuOrderCard';
 export default {
     props: {
@@ -41,11 +53,14 @@ export default {
         }
     },
     components: {
-        MenuOrderCard
+        MenuOrderCard,
+        // SwipeOut,
+        SwipeList
     },
     data() {
         return {
             modal: false,
+            enabled: true,
         }
     },
     computed: {
@@ -66,7 +81,81 @@ export default {
         },
         handleIncrementQuantity(id) {
             this.$emit('incrementQuantity', id);
+        },
+        closeSheet() {
+            this.modal = !this.modal;
+            this.$refs.list.closeActions();
+        },
+        removeOrder(id) {
+            this.$emit('removeOrder', id)
         }
     }
 }
 </script>
+
+<style lang="scss">
+.swipeout-action {
+  display: flex;
+  align-items: center;
+  padding: 0 2rem;
+  cursor: pointer;
+}
+
+.swipeout {
+	position: relative;
+	overflow: hidden;
+	display: flex;
+}
+
+.swipeout .swipeout-left, .swipeout .swipeout-right {
+	position: absolute;
+	height: 100%;
+	display: flex;
+	z-index: 1;
+}
+
+.swipeout .swipeout-left {
+	left: 0;
+	transform: translateX(-100%);
+}
+
+.swipeout .swipeout-right {
+	right: 0;
+	transform: translateX(100%);
+}
+
+.swipeout .swipeout-content,
+.swipeout .swipeout-action {
+	transition: transform .2s;
+	will-change: transform;
+}
+
+.swipeout.swipeout--no-transition .swipeout-content,
+.swipeout.swipeout--no-transition .swipeout-action {
+  transition: none !important;
+}
+
+.swipeout .swipeout-content {
+	width: 100%;
+}
+
+.swipeout-non-selectable {
+	-webkit-user-select: none !important;
+	-moz-user-select: none !important;
+	-ms-user-select: none !important;
+	user-select: none !important;
+}
+
+.swipeout-no-pointer-events {
+	pointer-events: none !important;
+}
+
+.swipeout-list {
+	display: flex;
+	flex-direction: column;
+}
+
+.swipeout-list-item {
+	flex: 1;
+}
+</style>
