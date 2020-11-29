@@ -1,6 +1,6 @@
 <template>
     <section>
-        <h2 hidden>Home</h2>
+        <h2 style="display: none">Home</h2>
         <v-card width="100%" height="200" class="primary menu-item mb-4" href="/menu" flat>
             <v-icon x-large dark class="mx-auto">fastfood</v-icon>
             <v-card-title class="white--text pa-0">Food &amp; drinks</v-card-title>

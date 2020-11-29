@@ -5,7 +5,7 @@ export default {
         ctx.commit('setError', null);
         ctx.commit('setLoading', true);
         try {
-            const result = await firebase.menuCollection.where('venueId', '==', ctx.rootGetters['events/currentEvent'].venueId).get();
+            const result = await firebase.menuCollection.where('venueId', '==', ctx.rootGetters['events/currentEvent'].venueId).where('active', '==', true).get();
             const menu = [];
             result.forEach(item => {
                 const drink = item.data();

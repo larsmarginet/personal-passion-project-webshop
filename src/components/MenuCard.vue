@@ -2,8 +2,8 @@
     <v-card flat class="mb-4 mx-auto rounded-lg" max-width="600">
         <v-row class="pl-3">
             <v-col cols="4" sm="2">
-                <v-responsive :aspect-ratio="1/1" style="maxWidth: 100px" class="rounded-lg">
-                    <v-img :src="item.image" :alt="item.name"></v-img>
+                <v-responsive :aspect-ratio="1/1" style="maxWidth: 100px; maxHeight: 100px" class="rounded-lg">
+                    <img :src="item.image" :alt="item.name" style="objectFit: cover; maxHeight: 100px">
                 </v-responsive>
             </v-col>
             <v-col cols="8" class="card-grid px-0">
