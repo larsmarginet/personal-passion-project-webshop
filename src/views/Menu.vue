@@ -1,6 +1,9 @@
 <template>
     <section>
         <h2 style="display: none">Food &amp; drinks</h2>
+        <v-expand-transition>
+            <Alert @dismissed="onDismissed" :text="error" v-if="error"/>
+        </v-expand-transition>
         <v-container class="ma-0 pa-0" v-if="loading">
             <v-skeleton-loader type="list-item-avatar-two-line" class="mb-4" v-for="n in 3" :key="n"></v-skeleton-loader>
         </v-container>
@@ -19,10 +22,12 @@
 <script>
 import MenuCard from '../components/MenuCard';
 import MenuOrders from '../components/MenuOrders';
+import Alert from '../components/shared/Alert';
 export default {
     components: {
         MenuCard,
-        MenuOrders
+        MenuOrders,
+        Alert
     },
     data() {
         return {
@@ -36,6 +41,9 @@ export default {
         },
         loading() {
             return this.$store.getters['menu/loading'];
+        },
+        error() {
+            return this.$store.getters['menu/error'];
         }
     },
     methods: {
@@ -68,7 +76,10 @@ export default {
             this.orders.splice(index, 1);
             const menuItem = this.menu.find(item => item.id === id);
             menuItem.quantity = 0;
-        }
+        },
+         onDismissed() {
+            this.$store.dispatch('menu/clearError');
+        },
     },
     mounted() {
         this.$store.dispatch('setLoadingComponent', false);

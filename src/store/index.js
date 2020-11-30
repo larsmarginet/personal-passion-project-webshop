@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import events from './events/index';
 import menu from './menu/index';
+import merch from './merch/index';
 
 Vue.use(Vuex)
 
@@ -26,6 +27,7 @@ export default new Vuex.Store({
   },
   modules: {
     events,
-    menu
+    menu,
+    merch
   }
 })
