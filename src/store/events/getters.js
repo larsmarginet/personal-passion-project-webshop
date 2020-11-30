@@ -4,5 +4,8 @@ export default {
     },
     bubble(state) {
         return state.bubble;
+    },
+    roomId(state) {
+        return state.roomId;
     }
 }

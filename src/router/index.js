@@ -90,6 +90,7 @@ router.beforeEach(async (to, _, next) => {
         } else if (await JSON.parse(window.localStorage.getItem("bubble")) !== null && await JSON.parse(window.localStorage.getItem("event") !== null)) {
             store.commit('events/setBubble', await JSON.parse(window.localStorage.getItem("bubble")));
             store.commit('events/setCurrentEvent', await JSON.parse(window.localStorage.getItem("event")));
+            store.commit('events/setRoomId', await JSON.parse(window.localStorage.getItem("roomId")));
             next();
         } else if (await JSON.parse(window.localStorage.getItem("bubble")) !== null && await JSON.parse(window.localStorage.getItem("roomId") !== null)) {
             store.commit('events/setBubble', await JSON.parse(window.localStorage.getItem("bubble")));

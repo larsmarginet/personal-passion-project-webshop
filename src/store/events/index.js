@@ -7,6 +7,7 @@ export default {
     state: {
         currentTime: null,
         currentEvent: null,
+        roomId: null,
         bubble: null,
     },
     mutations,
