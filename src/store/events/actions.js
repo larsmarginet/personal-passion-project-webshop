@@ -12,7 +12,7 @@ export default {
                     const fetchedEvent = event.data();
                     fetchedEvent.id = event.id;
                     if (fetchedEvent.start <= currentTime) {
-                        ctx.commit('setCurrentEvent', event.data());
+                        ctx.commit('setCurrentEvent', fetchedEvent);
                     } else {
                         ctx.commit('setCurrentEvent', null);
                         router.replace('/noEvent');

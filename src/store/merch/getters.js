@@ -8,4 +8,7 @@ export default {
     merch(state) {
         return state.merch;
     },
+    currentItem(state) {
+        return state.merch;
+    }
 }

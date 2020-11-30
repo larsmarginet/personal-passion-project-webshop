@@ -41,6 +41,17 @@ const routes = [
     component: () => import(/* NoEvent: "Merch" */ '../views/Merch.vue')
   },
   {
+    path: '/merch/:id',
+    name: 'MerchDetail',
+    props: true,
+    meta: {
+      title: metaData.merch.title,
+      description: metaData.merch.description,
+      requiresAuth: true 
+    },
+    component: () => import(/* NoEvent: "Merch" */ '../views/MerchDetail.vue')
+  },
+  {
     path: '/noEvent',
     name: 'NoEvent',
     meta: {

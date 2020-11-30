@@ -8,4 +8,7 @@ export default {
     setMerch(state, payload) {
         state.merch = payload;
     },
+    setCurrentItem(state, payload) {
+        state.currentItem = payload;
+    }
 }

@@ -6,6 +6,7 @@ export default {
     namespaced: true,
     state: {
         merch: [],
+        currentItem: null,
         loading: false,
         error: null,
     },
