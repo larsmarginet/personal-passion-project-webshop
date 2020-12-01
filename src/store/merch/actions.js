@@ -25,9 +25,15 @@ export default {
         ctx.commit('setLoading', true);
         ctx.commit('setError', null);
         try {
-            await firebase.eventsCollection.doc(ctx.rootGetters['events/currentEvent'].id).collection('merch').doc(payload).onSnapshot(snapshot => {
-                console.log(snapshot.data());
-            })
+            await firebase.eventsCollection.doc(ctx.rootGetters['events/currentEvent'].id).collection('merch').doc(payload).onSnapshot(async snapshot => {
+                const currentMerch = snapshot.data();
+                currentMerch.id = snapshot.id;
+                currentMerch.images = [];
+                // fetch images
+                const result = await firebase.eventsCollection.doc(ctx.rootGetters['events/currentEvent'].id).collection('merch').doc(payload).collection('images').orderBy('pos', 'asc').get();
+                result.forEach(img => currentMerch.images.push(img.data()));
+                ctx.commit('setCurrentItem', currentMerch);
+            });
         } catch (error) {
             ctx.commit('setError', error);
         }

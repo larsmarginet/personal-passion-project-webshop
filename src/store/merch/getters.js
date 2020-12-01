@@ -9,6 +9,6 @@ export default {
         return state.merch;
     },
     currentItem(state) {
-        return state.merch;
+        return state.currentItem;
     }
 }

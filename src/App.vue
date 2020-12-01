@@ -21,7 +21,7 @@ export default {
         TheFooter,
     },
     mounted() {
-       this.$store.dispatch('events/checkEventExperation')
+       this.$store.dispatch('events/checkEventExperation');
     }
 };
 </script>

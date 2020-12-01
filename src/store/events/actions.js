@@ -28,6 +28,17 @@ export default {
         }
     },
 
+    async checkSignedAmount(ctx) {
+        try {
+            await firebase.eventsCollection.doc(ctx.getters.currentEvent.id).onSnapshot(snapshot => {
+                const event = snapshot.data();
+                event.id = snapshot.id;
+                ctx.commit('setCurrentEvent', event);
+            });
+        } catch (error) {   
+            console.error(error);
+        }
+    },
 
     async checkEventExperation(ctx) {
         const currentEvent = await JSON.parse(window.localStorage.getItem('event'));
