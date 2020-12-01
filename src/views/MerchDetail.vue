@@ -22,17 +22,20 @@
                         <p class="subtitle-1">Options</p>
                         <div class="options">
                             <label class="options-label" v-for="(option, i) in currentItem.options" :key="i" :for="option"> 
-                                <input type="radio" class="options-radio" :id="option.option" name="options" :value="option.option" v-model="selectedOption" :disabled="option.quantity < 1"/>
+                                <input type="radio" class="options-radio" :id="option.option" name="options" :value="option.option" v-model="selectedOption" :disabled="option.quantity < 1" @change="handleSelectedOption"/>
                                 <span class="options-option">{{option.option}}</span>
                             </label>
                         </div>
                     </v-row>
+                    <v-slide-y-transition>
+                        <p class="error--text caption text-right" v-if="optionsError">{{optionsError}}</p>
+                    </v-slide-y-transition>
                     <v-row class="mx-0 mt-2" justify="space-between">
                         <p class="subtitle-1">Quantity</p>
                         <div class="quantity">
                             <v-btn color="primary" depressed fab x-small @click="decrementQuantity" :disabled="orderQuantity <= 1"><v-icon small>remove</v-icon></v-btn>
                             <p class="mb-0 mt-1 mx-2">{{orderQuantity}}</p>
-                            <v-btn color="primary" depressed fab x-small @click="incrementQuantity" :disabled="orderQuantity >= currentItem.quantity"><v-icon small>add</v-icon></v-btn>
+                            <v-btn color="primary" depressed fab x-small @click="incrementQuantity" :disabled="(orderQuantity + cartItemQuantity) >= maxQuantity"><v-icon small>add</v-icon></v-btn>
                         </div>
                     </v-row>
                     <v-row class="mx-0 mt-2" justify="space-between" v-if="currentItem.signable && currentEvent.signedAmount < currentEvent.signingAmount">
@@ -45,7 +48,7 @@
                     </v-row>
                     <v-row class="mx-0 mt-2" justify="space-between" align="center">
                         <span class="subtitle-1 font-weight-bold mb-0">€{{currentItem.price}}</span>
-                        <v-btn depressed class="primary" width="80%" max-width="350px" @click="handleAddToCart">Add to cart</v-btn>
+                        <v-btn depressed class="primary" width="80%" max-width="350px" @click="handleAddToCart" :disabled="(orderQuantity + cartItemQuantity) > maxQuantity">Add to cart</v-btn>
                     </v-row>
                 </form>
                 <div class="mt-4">
@@ -66,6 +69,7 @@ export default {
     },
     data() {
         return {
+            optionsError: null,
             orderQuantity: 1,
             signed: false,
             selectedOption: null
@@ -77,6 +81,17 @@ export default {
         },
         currentEvent() {
             return this.$store.getters['events/currentEvent'];
+        },
+        cartItemQuantity() {
+           return this.$store.getters['cart/getCartItemQuantity']({id: this.id, option: this.selectedOption});
+        },
+        maxQuantity() {
+            if (this.currentItem.options.length > 0 && this.selectedOption) {
+                const option = this.currentItem.options.find(option => option.option === this.selectedOption);
+                return option.quantity;
+            } else {
+                return this.currentItem.quantity;
+            }
         },
         images() {
             return this.currentItem.images;
@@ -90,21 +105,43 @@ export default {
     },
     methods: {
         decrementQuantity() {
+            this.optionsError = null;
+            if (this.currentItem.options.length > 0 && !this.selectedOption) {
+                this.optionsError = 'Please select an option';
+                return;
+            }
             if (this.orderQuantity > 1) {
                 this.orderQuantity--;
             }
         },
         incrementQuantity() {
+            this.optionsError = null;
+            if (this.currentItem.options.length > 0 && !this.selectedOption) {
+                this.optionsError = 'Please select an option';
+                return;
+            }
             if (this.orderQuantity < this.currentItem.quantity) {
                 this.orderQuantity++;
             }
         },
+        handleSelectedOption() {
+            this.optionsError = null;
+            const option = this.currentItem.options.find(option => option.option === this.selectedOption);
+            if (option.quantity < this.orderQuantity) {
+                this.orderQuantity = option.quantity;
+            }
+        },
         handleAddToCart() {
+            this.optionsError = null;
+            if (this.currentItem.options.length > 0 && !this.selectedOption) {
+                this.optionsError = 'Please select an option';
+                return;
+            }
             this.$store.dispatch('cart/addToCart', {
                 orderQuantity: this.orderQuantity,
                 selectedOption: this.selectedOption,
                 ...this.currentItem
-            })
+            }); 
         }
     },
     mounted() {
@@ -118,13 +155,13 @@ export default {
 <style scoped>
 .back-button {
     position: absolute;
-    z-index: 99;
+    z-index: 2;
     text-decoration: none;
 }
 
 .amount-left {
     position: absolute;
-    z-index: 99;
+    z-index: 2;
     right: 0;
 }
 
