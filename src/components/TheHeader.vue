@@ -24,7 +24,7 @@ export default {
             return this.$store.getters['events/currentEvent'] ? this.$store.getters['events/currentEvent'] : null;
         },
         shop() {
-            return false;
+            return this.$route.path.includes('merch') ?  true : false;
         },
         loadingComponent() {
             return this.$store.getters['loadingComponent'];

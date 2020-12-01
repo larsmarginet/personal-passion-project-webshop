@@ -3,6 +3,7 @@ import Vuex from 'vuex';
 import events from './events/index';
 import menu from './menu/index';
 import merch from './merch/index';
+import cart from './cart/index';
 
 Vue.use(Vuex)
 
@@ -28,6 +29,7 @@ export default new Vuex.Store({
   modules: {
     events,
     menu,
-    merch
+    merch,
+    cart
   }
 })

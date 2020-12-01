@@ -7,9 +7,15 @@
             </div>
             <v-card-title>{{item.name}}</v-card-title>
         </router-link>
+        <v-row class="px-4 mb-2" v-if="item.options.length > 0">
+            <label class="options-label" v-for="(option, i) in item.options" :key="i" :for="option"> 
+                <input type="radio" class="options-radio" :id="option.option" :name="`options-${item.id}`" :value="option.option" v-model="selectedOption" :disabled="option.quantity < 1"/>
+                <span class="options-option">{{option.option}}</span>
+            </label>
+        </v-row>
         <v-row class="px-7 pb-4" justify="space-between" align="center">
             <p class="mb-0 title">€{{item.price}}</p>
-            <v-btn depressed large link class="primary"><v-icon class="white--text">add_shopping_cart</v-icon></v-btn>
+            <v-btn depressed large link class="primary" @click="handleAddToCart"><v-icon class="white--text">add_shopping_cart</v-icon></v-btn>
         </v-row>
     </v-card>
 </template>
@@ -22,6 +28,31 @@ export default {
             type: Object
         }
     },
+    data() {
+        return {
+            selectedOption: this.item.options.length > 0 ? this.firstOption() : null
+        }
+    },
+    methods: {
+        firstOption() {
+            let option;
+            for (let i = 0; i < this.item.options.length; i++) {
+                if (this.item.options[i].quantity > 0) {
+                    // return first option available that is still in stock
+                    option = this.item.options[i].option;
+                    break;
+                }
+            }
+            return option;
+        },
+        handleAddToCart() {
+            this.$store.dispatch('cart/addToCart', {
+                orderQuantity: 1,
+                selectedOption: this.selectedOption,
+                ...this.item
+            })
+        }
+    }
 }
 </script>
 
@@ -30,5 +61,43 @@ export default {
     position: absolute;
     z-index: 99;
     right: 0;
+}
+
+.options {
+    display: flex;
+}
+
+.options-label {
+    position: relative;
+    cursor: pointer;
+}
+
+.options-option {
+    border: 2px solid #6fcf97;
+    display: block;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    justify-content: center;
+    text-align: center;
+    padding-top: 3px;
+    margin-left: 10px;
+}
+
+.options-radio {
+    position: absolute;
+	opacity: 0;
+    display: block;
+    width: 35px;
+    height: 35px;
+}
+
+.options-radio:checked ~ span {
+    background: #6fcf97;
+    color: white;
+}
+
+.options-radio:disabled ~ span {
+    opacity: .5;
 }
 </style>

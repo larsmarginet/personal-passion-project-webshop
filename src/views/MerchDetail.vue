@@ -11,7 +11,7 @@
             <v-col cols="12" sm="8" md="6" class="pt-0" style="position: relative">
                 <router-link class="back-button pl-3 pt-2" to="/merch"><v-icon small>arrow_back_ios</v-icon></router-link>
                 <div class="primary amount-left mr-3 pl-8 pr-4 py-2 rounded-bl-lg white--text font-weight-bold" v-if="currentItem.quantity <= 15">{{currentItem.quantity}} left</div>
-                <v-carousel hide-delimiter-background height="50vh">
+                <v-carousel hide-delimiter-background height="50vh" :hide-delimiters="images.length <= 1" :show-arrows="images.length > 1">
                     <v-carousel-item v-for="(image, i) in images" :key="i" :src="image.image"></v-carousel-item>
                 </v-carousel>
             </v-col>
@@ -22,8 +22,8 @@
                         <p class="subtitle-1">Options</p>
                         <div class="options">
                             <label class="options-label" v-for="(option, i) in currentItem.options" :key="i" :for="option"> 
-                                <input type="radio" class="options-radio" :id="option" name="options" :value="option" :checked="i === 0"/>
-                                <span class="options-option">{{option}}</span>
+                                <input type="radio" class="options-radio" :id="option.option" name="options" :value="option.option" v-model="selectedOption" :disabled="option.quantity < 1"/>
+                                <span class="options-option">{{option.option}}</span>
                             </label>
                         </div>
                     </v-row>
@@ -45,7 +45,7 @@
                     </v-row>
                     <v-row class="mx-0 mt-2" justify="space-between" align="center">
                         <span class="subtitle-1 font-weight-bold mb-0">€{{currentItem.price}}</span>
-                        <v-btn depressed class="primary" width="80%" max-width="350px">Add to cart</v-btn>
+                        <v-btn depressed class="primary" width="80%" max-width="350px" @click="handleAddToCart">Add to cart</v-btn>
                     </v-row>
                 </form>
                 <div class="mt-4">
@@ -68,6 +68,7 @@ export default {
         return {
             orderQuantity: 1,
             signed: false,
+            selectedOption: null
         }
     },
     computed: {
@@ -97,6 +98,13 @@ export default {
             if (this.orderQuantity < this.currentItem.quantity) {
                 this.orderQuantity++;
             }
+        },
+        handleAddToCart() {
+            this.$store.dispatch('cart/addToCart', {
+                orderQuantity: this.orderQuantity,
+                selectedOption: this.selectedOption,
+                ...this.currentItem
+            })
         }
     },
     mounted() {
@@ -145,11 +153,17 @@ export default {
     position: absolute;
 	opacity: 0;
     display: block;
+    width: 35px;
+    height: 35px;
 }
 
 .options-radio:checked ~ span {
     background: #6fcf97;
     color: white;
+}
+
+.options-radio:disabled ~ span {
+    opacity: .5;
 }
 
 .quantity {
