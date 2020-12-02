@@ -1,23 +1,31 @@
 <template>
     <section style="maxWidth: 600px" class="mx-auto">
         <h2 style="display: none">cart</h2>
-        <swipe-list ref="list" class="card" :items="cart" item-key="id">
-            <template v-slot="{ item }">
-                <div class="card-content mb-2">
-                    <MerchCardMini :item="item" @decrementQuantity="handleDecrementQuantity" @incrementQuantity="handleIncrementQuantity"/>
-                </div>
-            </template>
-            <template v-slot:right="{ item }">
-                <div class="swipeout-action error delete-card mb-2" title="remove" @click="removeOrder(item.id, item.selectedOption)" @keypress.enter="removeOrder(item.id, item.selectedOption)">
-                    <v-icon class="white--text px-5">delete</v-icon>
-                </div>
-            </template>
-        </swipe-list>
-        <v-row justify="space-between" class="px-3">
-            <p class="grey--text text--lighten-1 title">Total:</p>
-            <p class="font-weight-bold title">€{{cartTotal}}</p>
-        </v-row>
-        <v-btn class="primary" block large depressed>Order</v-btn>
+        <div v-if="cart.length > 0">
+            <swipe-list ref="list" class="card" :items="cart" item-key="id">
+                <template v-slot="{ item }">
+                    <div class="card-content mb-2">
+                        <MerchCardMini :item="item" @decrementQuantity="handleDecrementQuantity" @incrementQuantity="handleIncrementQuantity"/>
+                    </div>
+                </template>
+                <template v-slot:right="{ item }">
+                    <div class="swipeout-action error delete-card mb-2" title="remove" @click="removeOrder(item.id, item.selectedOption)" @keypress.enter="removeOrder(item.id, item.selectedOption)">
+                        <v-icon class="white--text px-5">delete</v-icon>
+                    </div>
+                </template>
+            </swipe-list>
+            <v-row justify="space-between" class="px-3">
+                <p class="grey--text text--lighten-1 title">Total:</p>
+                <p class="font-weight-bold title">€{{cartTotal}}</p>
+            </v-row>
+            <v-btn class="primary" block large depressed>Order</v-btn>
+        </div>
+        <div class="mt-8" v-else>
+            <p class="text-center body-1">Your cart is empty...</p>
+            <v-row justify="center">
+                <v-btn to="/merch" class="primary" depressed>Continue shopping</v-btn>
+            </v-row>
+        </div>
     </section>
 </template>
 
