@@ -40,6 +40,20 @@ const merch = {
     ]
 };
 
+const cart = {
+    title: 'cart',
+    metaTags: [
+        {
+            name: 'description',
+            content: 'Order your merchandise here, right from your seat.'
+        },
+        {
+            name: 'og:description',
+            content: 'Order your merchandise here, right from your seat.'
+        }
+    ]
+};
+
 const noEvent = {
     title: 'no event',
     metaTags: [
@@ -73,5 +87,6 @@ export {
     noEvent,
     eventOver,
     menu,
-    merch
+    merch,
+    cart
 }

@@ -44,7 +44,7 @@
 
 <script>
 import { SwipeList } from 'vue-swipe-actions';
-import MenuOrderCard from '../components/MenuOrderCard';
+import MenuOrderCard from './MenuOrderCard';
 export default {
     props: {
         orders: {

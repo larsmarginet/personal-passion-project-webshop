@@ -20,8 +20,8 @@
 </template>
 
 <script>
-import MenuCard from '../components/MenuCard';
-import MenuOrders from '../components/MenuOrders';
+import MenuCard from '../components/menu/MenuCard';
+import MenuOrders from '../components/menu/MenuOrders';
 import Alert from '../components/shared/Alert';
 export default {
     components: {

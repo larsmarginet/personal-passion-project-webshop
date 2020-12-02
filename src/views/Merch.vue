@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import MerchCard from '../components/MerchCard';
+import MerchCard from '../components/merch/MerchCard';
 export default {
     components: {
         MerchCard

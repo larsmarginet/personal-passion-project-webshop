@@ -11,9 +11,13 @@
             </v-toolbar-title>
         </router-link>
         <v-spacer></v-spacer>
-        <v-container style="maxWidth: 35px" class="px-0">
-            <v-icon v-if="shop" large dark>shopping_cart</v-icon>
-        </v-container>
+        <router-link to="/merch/cart" class="px-0" text fab small v-if="shop">
+            <v-badge bottom color="orange" :content="cartAmount" offset-x="15" offset-y="15" v-if="cartAmount > 0">
+                <v-icon large dark>shopping_cart</v-icon>
+            </v-badge>
+            <v-icon v-else large dark>shopping_cart</v-icon>
+        </router-link>
+        <div style="maxWidth: 50px; width: 10%" v-else></div>
     </v-app-bar>
 </template>
 
@@ -29,6 +33,12 @@ export default {
         loadingComponent() {
             return this.$store.getters['loadingComponent'];
         },
+        cartAmount() {
+            return this.$store.getters['cart/totalCartAmount'];
+        }
+    },
+    mounted() {
+        this.$store.dispatch('cart/setCart', JSON.parse(window.localStorage.getItem('cart')));
     }
 }
 </script>

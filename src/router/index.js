@@ -28,7 +28,7 @@ const routes = [
       description: metaData.menu.description,
       requiresAuth: true 
     },
-    component: () => import(/* NoEvent: "Menu" */ '../views/Menu.vue')
+    component: () => import(/* webpackChunkName: "Menu" */ '../views/Menu.vue')
   },
   {
     path: '/merch',
@@ -38,7 +38,17 @@ const routes = [
       description: metaData.merch.description,
       requiresAuth: true 
     },
-    component: () => import(/* NoEvent: "Merch" */ '../views/Merch.vue')
+    component: () => import(/* webpackChunkName: "Merch" */ '../views/Merch.vue')
+  },
+  {
+    path: '/merch/cart',
+    name: 'MerchCart',
+    meta: {
+      title: metaData.cart.title,
+      description: metaData.cart.description,
+      requiresAuth: true 
+    },
+    component: () => import(/* webpackChunkName: "MerchCart" */ '../views/MerchCart.vue')
   },
   {
     path: '/merch/:id',
@@ -49,7 +59,7 @@ const routes = [
       description: metaData.merch.description,
       requiresAuth: true 
     },
-    component: () => import(/* NoEvent: "Merch" */ '../views/MerchDetail.vue')
+    component: () => import(/* webpackChunkName: "MerchDetail" */ '../views/MerchDetail.vue')
   },
   {
     path: '/noEvent',
@@ -58,7 +68,7 @@ const routes = [
       title: metaData.noEvent.title,
       description: metaData.noEvent.description,
     },
-    component: () => import(/* NoEvent: "Home" */ '../views/NoEvent.vue')
+    component: () => import(/* webpackChunkName: "NoEvent" */ '../views/NoEvent.vue')
   },
   {
     path: '/eventOver',
