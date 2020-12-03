@@ -14,7 +14,7 @@
             </article>
         </div>
         <div class="orders">
-            <MenuOrders :orders="orders" @decrementQuantity="handleDecrementQuantity" @incrementQuantity="handleIncrementQuantity" @removeOrder="handleRemoveOrder"/>
+            <MenuOrders :orders="orders" @decrementQuantity="handleDecrementQuantity" @incrementQuantity="handleIncrementQuantity" @removeOrder="handleRemoveOrder" @clearOrders="handleClearOrders"/>
         </div>
     </section>
 </template>
@@ -77,7 +77,10 @@ export default {
             const menuItem = this.menu.find(item => item.id === id);
             menuItem.quantity = 0;
         },
-         onDismissed() {
+        handleClearOrders() {
+            this.orders = [];
+        },
+        onDismissed() {
             this.$store.dispatch('menu/clearError');
         },
     },

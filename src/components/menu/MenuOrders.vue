@@ -1,7 +1,7 @@
 <template>
     <div>
         <v-bottom-sheet v-model="modal" scrollable>
-            <v-card class="rounded-t-xl grey lighten-4" height="80vh">
+            <v-card class="rounded-t-xl grey lighten-4" height="80vh" v-if="orders.length > 0">
                 <v-row justify="end" class="ma-0" style="maxHeight: 50px">
                     <v-btn fab depressed text  @click="closeSheet"><v-icon class="primary--text">highlight_off</v-icon></v-btn>
                 </v-row>
@@ -25,9 +25,20 @@
                             <p class="grey--text text--lighten-1">Total:</p>
                             <p class="font-weight-bold">€{{totalPrice}}</p>
                         </v-row>
-                        <v-btn block depressed large class="primary">Order</v-btn>
+                        <v-btn block depressed large class="primary" @click="handleAddOrders">Order</v-btn>
                     </v-col>
                 </v-card-actions>
+            </v-card>
+            <v-card class="rounded-t-xl grey lighten-4" height="80vh" v-else>
+                <v-row justify="end" class="ma-0" style="maxHeight: 50px">
+                    <v-btn fab depressed text  @click="closeSheet"><v-icon class="primary--text">highlight_off</v-icon></v-btn>
+                </v-row>
+                <v-card-text style="maxWidth: 600px" class="mx-auto">
+                    <p class="body-1 text-center">Your cart is empty.</p>
+                    <v-row justify="center">
+                        <v-btn class="primary" depressed @click="modal = !modal">Continue shopping</v-btn>
+                    </v-row>
+                </v-card-text>
             </v-card>
         </v-bottom-sheet>
         <v-scroll-y-reverse-transition>
@@ -82,10 +93,14 @@ export default {
         },
         closeSheet() {
             this.modal = !this.modal;
-            this.$refs.list.closeActions();
+            if (this.orders.length > 0) this.$refs.list.closeActions();
         },
         removeOrder(id) {
             this.$emit('removeOrder', id)
+        },
+        async handleAddOrders() {
+            await this.$store.dispatch('cart/placeMenuOrders', this.orders);
+            this.$emit('clearOrders');
         }
     }
 }

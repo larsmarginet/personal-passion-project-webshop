@@ -6,6 +6,8 @@ export default {
     namespaced: true,
     state: {
         cart: [],
+        error: null,
+        loading: false,
     },
     mutations,
     actions,

@@ -19,7 +19,6 @@ const db = firebase.firestore();
 
 // collection references
 const eventsCollection = db.collection('events');
-// const roomsCollection = db.collection('rooms');
 const menuCollection = db.collection('menu');
 const merchCollection = db.collection('merch');
 const songCollection = db.collection('songs');
@@ -28,7 +27,6 @@ const songCollection = db.collection('songs');
 export {
   db,
   eventsCollection,
-  // roomsCollection,
   menuCollection,
   merchCollection,
   songCollection
