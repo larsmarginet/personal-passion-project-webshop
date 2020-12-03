@@ -63,7 +63,7 @@ export default {
             this.$store.commit('cart/updateCartItem', {id, selectedOption: option, orderQuantity: 1});
         },
         handleOrderMerch() {
-            this.$store.dispatch('cart/placeMerchOrder', this.cart)
+            this.$store.dispatch('cart/placeMerchOrders', this.cart)
         }
     },
     mounted() {

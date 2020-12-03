@@ -58,6 +58,7 @@ export default {
         ctx.commit('setCurrentEvent', null);
         ctx.commit('setBubble', null);
         ctx.commit('setRoomId', null);
+        window.localStorage.setItem('cart', JSON.stringify([]));
         router.replace('/eventOver');
     }
 }

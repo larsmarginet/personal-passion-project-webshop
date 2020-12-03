@@ -110,9 +110,7 @@ export default {
                 this.optionsError = 'Please select an option';
                 return;
             }
-            if (this.orderQuantity > 1) {
-                this.orderQuantity--;
-            }
+            if (this.orderQuantity > 1) this.orderQuantity--;
         },
         incrementQuantity() {
             this.optionsError = null;
@@ -120,16 +118,12 @@ export default {
                 this.optionsError = 'Please select an option';
                 return;
             }
-            if (this.orderQuantity < this.currentItem.quantity) {
-                this.orderQuantity++;
-            }
+            if (this.orderQuantity < this.currentItem.quantity) this.orderQuantity++;
         },
         handleSelectedOption() {
             this.optionsError = null;
             const option = this.currentItem.options.find(option => option.option === this.selectedOption);
-            if (option.quantity < this.orderQuantity) {
-                this.orderQuantity = option.quantity;
-            }
+            if (option.quantity < this.orderQuantity) this.orderQuantity = option.quantity;
         },
         handleAddToCart() {
             this.optionsError = null;
@@ -140,6 +134,7 @@ export default {
             this.$store.dispatch('cart/addToCart', {
                 orderQuantity: this.orderQuantity,
                 selectedOption: this.selectedOption,
+                signed: this.signed,
                 ...this.currentItem
             }); 
         }
