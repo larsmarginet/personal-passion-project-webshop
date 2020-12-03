@@ -79,6 +79,7 @@ export default {
         },
         handleClearOrders() {
             this.orders = [];
+            this.menu.forEach(item => item.quantity = 0);
         },
         onDismissed() {
             this.$store.dispatch('menu/clearError');

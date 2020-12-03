@@ -18,7 +18,7 @@
                 <p class="grey--text text--lighten-1 title">Total:</p>
                 <p class="font-weight-bold title">€{{cartTotal}}</p>
             </v-row>
-            <v-btn class="primary" block large depressed>Order</v-btn>
+            <v-btn class="primary" block large depressed @click="handleOrderMerch">Order</v-btn>
         </div>
         <div class="mt-8" v-else>
             <p class="text-center body-1">Your cart is empty...</p>
@@ -61,6 +61,9 @@ export default {
         },
         handleIncrementQuantity({id, option}) {
             this.$store.commit('cart/updateCartItem', {id, selectedOption: option, orderQuantity: 1});
+        },
+        handleOrderMerch() {
+            this.$store.dispatch('cart/placeMerchOrder', this.cart)
         }
     },
     mounted() {

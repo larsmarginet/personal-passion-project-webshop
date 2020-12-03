@@ -31,7 +31,7 @@ export default {
     },
     methods: {
         decrementQuantity() {
-            if (this.quantity > 0) {
+            if (this.item.quantity > 0) {
                 this.$emit('decrementQuantity', this.item.id);
             }
         },

@@ -35,6 +35,10 @@ export default {
         ctx.commit('setLoading', false);
     },
 
+    // async placeMerchOrders(ctx, payload) {
+    //     // 
+    // },
+
     clearError(ctx) {
         ctx.commit('setError', null);
     }

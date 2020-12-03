@@ -25,7 +25,7 @@
                             <p class="grey--text text--lighten-1">Total:</p>
                             <p class="font-weight-bold">€{{totalPrice}}</p>
                         </v-row>
-                        <v-btn block depressed large class="primary" @click="handleAddOrders">Order</v-btn>
+                        <v-btn block depressed large class="primary" @click="handleAddOrders" :loading="loading">Order</v-btn>
                     </v-col>
                 </v-card-actions>
             </v-card>
@@ -73,6 +73,9 @@ export default {
         }
     },
     computed: {
+        loading() {
+            return this.$store.getters['cart/loading'];
+        },
         totalItems() {
             let total = 0;
             this.orders.forEach(order => total += order.quantity);
