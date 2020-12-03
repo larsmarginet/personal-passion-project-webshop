@@ -1,6 +1,7 @@
 <template>
     <section>
         <h2 style="display: none">Merchandise</h2>
+        <Alert @dismissed="onDismissed" :text="error" v-if="error"/>
         <v-row v-if="loading">
             <v-col cols="12" sm="6" md="4" lg="3" v-for="item in merch" :key="item.id">
                 <v-card class="pa-4 rounded-lg" flat>
@@ -19,9 +20,11 @@
 
 <script>
 import MerchCard from '../components/merch/MerchCard';
+import Alert from '../components/shared/Alert';
 export default {
     components: {
-        MerchCard
+        MerchCard,
+        Alert
     },
     computed: {
         merch() {
@@ -33,6 +36,11 @@ export default {
         error() {
             return this.$store.getters['merch/error'];
         }
+    },
+    methods: {
+        onDismissed() {
+            this.$store.dispatch('merch/clearError');
+        },
     },
     mounted() {
         this.$store.dispatch('setLoadingComponent', false);

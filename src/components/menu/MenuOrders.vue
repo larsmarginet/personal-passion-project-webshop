@@ -1,6 +1,7 @@
 <template>
     <div>
         <v-bottom-sheet v-model="modal" scrollable>
+            <Alert @dismissed="onDismissed" :text="error" v-if="error"/>
             <v-card class="rounded-t-xl grey lighten-4" height="80vh" v-if="orders.length > 0">
                 <v-row justify="end" class="ma-0" style="maxHeight: 50px">
                     <v-btn fab depressed text  @click="closeSheet"><v-icon class="primary--text">highlight_off</v-icon></v-btn>
@@ -56,6 +57,7 @@
 <script>
 import { SwipeList } from 'vue-swipe-actions';
 import MenuOrderCard from './MenuOrderCard';
+import Alert from '../shared/Alert';
 export default {
     props: {
         orders: {
@@ -65,7 +67,8 @@ export default {
     },
     components: {
         MenuOrderCard,
-        SwipeList
+        SwipeList,
+        Alert
     },
     data() {
         return {
@@ -75,6 +78,9 @@ export default {
     computed: {
         loading() {
             return this.$store.getters['cart/loading'];
+        },
+        error() {
+            return this.$store.getters['cart/error'];
         },
         totalItems() {
             let total = 0;
@@ -100,6 +106,9 @@ export default {
         },
         removeOrder(id) {
             this.$emit('removeOrder', id)
+        },
+        onDismissed() {
+            this.$store.dispatch('cart/clearError');
         },
         async handleAddOrders() {
             await this.$store.dispatch('cart/placeMenuOrders', this.orders);

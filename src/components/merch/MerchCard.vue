@@ -15,7 +15,7 @@
         </v-row>
         <v-row class="px-7 pb-4" justify="space-between" align="center">
             <p class="mb-0 title">€{{item.price}}</p>
-            <v-btn depressed large link class="primary" @click="handleAddToCart" :disabled="(cartItemQuantity + 1) > maxQuantity" :loading="loading"><v-icon class="white--text">add_shopping_cart</v-icon></v-btn>
+            <v-btn depressed large link class="primary" @click="handleAddToCart" :disabled="(cartItemQuantity + 1) > maxQuantity"><v-icon class="white--text">add_shopping_cart</v-icon></v-btn>
         </v-row>
     </v-card>
 </template>
@@ -34,9 +34,6 @@ export default {
         }
     },
     computed: {
-        loading() {
-            return this.$store.getters['cart/loading'];
-        },
         cartItemQuantity() {
            return this.$store.getters['cart/getCartItemQuantity']({id: this.item.id, option: this.selectedOption});
         },

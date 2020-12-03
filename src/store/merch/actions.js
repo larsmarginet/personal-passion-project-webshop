@@ -38,5 +38,9 @@ export default {
             ctx.commit('setError', error);
         }
         ctx.commit('setLoading', false);
+    },
+
+    clearError(ctx) {
+        ctx.commit('setError', null);
     }
 }

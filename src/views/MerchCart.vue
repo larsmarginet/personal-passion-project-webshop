@@ -1,6 +1,7 @@
 <template>
     <section style="maxWidth: 600px" class="mx-auto">
         <h2 style="display: none">cart</h2>
+        <Alert @dismissed="onDismissed" :text="error" v-if="error"/>
         <div v-if="cart.length > 0">
             <swipe-list ref="list" class="card" :items="cart" item-key="id">
                 <template v-slot="{ item }">
@@ -18,7 +19,7 @@
                 <p class="grey--text text--lighten-1 title">Total:</p>
                 <p class="font-weight-bold title">€{{cartTotal}}</p>
             </v-row>
-            <v-btn class="primary" block large depressed @click="handleOrderMerch">Order</v-btn>
+            <v-btn class="primary" block large depressed @click="handleOrderMerch" :loading="loading">Order</v-btn>
         </div>
         <div class="mt-8" v-else>
             <p class="text-center body-1">Your cart is empty...</p>
@@ -31,11 +32,13 @@
 
 <script>
 import { SwipeList } from 'vue-swipe-actions';
-import MerchCardMini from '../components/merch/MerchCardMini'
+import MerchCardMini from '../components/merch/MerchCardMini';
+import Alert from '../components/shared/Alert';
 export default {
     components: {
         MerchCardMini,
-        SwipeList
+        SwipeList,
+        Alert
     },
     computed:{
         cart() {
@@ -45,7 +48,13 @@ export default {
             let total = 0;
             this.cart.forEach(order => total += (parseFloat(order.price) * order.orderQuantity));
             return (Math.round(total * 100) / 100).toFixed(2);
-        }
+        },
+        loading() {
+            return this.$store.getters['cart/loading'];
+        },
+        error() {
+            return this.$store.getters['cart/error'];
+        },
     },
     methods: {
         removeOrder(id, option) {
@@ -61,6 +70,9 @@ export default {
         },
         handleIncrementQuantity({id, option}) {
             this.$store.commit('cart/updateCartItem', {id, selectedOption: option, orderQuantity: 1});
+        },
+        onDismissed() {
+            this.$store.dispatch('cart/clearError');
         },
         handleOrderMerch() {
             this.$store.dispatch('cart/placeMerchOrders', this.cart)
