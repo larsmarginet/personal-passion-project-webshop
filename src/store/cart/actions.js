@@ -66,10 +66,21 @@ export default {
                 bubble: ctx.rootGetters['events/bubble'],
                 status: 'uncompleted',
             });
+
+             // step 2: update signedAmount if necessary
+            if (signed) {
+                let amount = 0;
+                orders.forEach(order => order.signed ? amount += order.quantity : amount += 0);
+                const result = await firebase.eventsCollection.doc(ctx.rootGetters['events/currentEvent'].id).get();
+                const currentEvent = result.data();
+                await firebase.eventsCollection.doc(ctx.rootGetters['events/currentEvent'].id).update({
+                    signedAmount: currentEvent.signedAmount + amount
+                });
+            }
             
-            // step 2: decrement stock for items in event (+ if there are options: option stock)
-            // step 2.1: decrement stock && qty in current event
-            // I could write this block in the else statement in step 2.2, but I'm not doing this, 
+            // step 3: decrement stock for items in event (+ if there are options: option stock)
+            // step 3.1: decrement stock && qty in current event
+            // I could write this block in the else statement in step 3.2, but I'm not doing this, 
             // because the update for this event has absolute priority over the other events
             // (user are engaging with this data at the moment, while other events wont be touched for many hours or days)
             await firebase.db.runTransaction(async (transaction) => {
@@ -90,7 +101,7 @@ export default {
                 });
             });
 
-            //step 2.2. decrement stock (&& set qty to stock IF qty > new stock)
+            //step 3.2. decrement stock (&& set qty to stock IF qty > new stock)
             await firebase.db.runTransaction(async (transaction) => {
                 payload.forEach(async order => {
                     const events = await firebase.eventsCollection.where('bandId', '==', order.bandId).get();
@@ -119,7 +130,7 @@ export default {
                 });
             });
 
-            // step 3: decrement general stock
+            // step 4: decrement general stock
             await firebase.db.runTransaction(async (transaction) => {
                 orders.forEach(async order => {
                     const result = await transaction.get(firebase.merchCollection.doc(order.id));
