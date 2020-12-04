@@ -7,7 +7,7 @@ export default {
         return cartItem ? cartItem.orderQuantity : 0;
     },
     totalCartAmount(state) {
-        return state.cart.length;
+        return state.cart ? state.cart.length : 0;
     },
     error(state) {
         return state.error;

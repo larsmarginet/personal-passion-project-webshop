@@ -102,6 +102,7 @@ router.beforeEach(async (to, _, next) => {
     if (requiresAuth) {
       if (to.query.bubble && to.query.roomId) {
             const { bubble, roomId } = to.query;
+            window.localStorage.setItem('cart', JSON.stringify([]));
             store.dispatch('events/loadEvents', roomId);
             store.commit('events/setBubble', bubble);
             store.commit('events/setRoomId', roomId);

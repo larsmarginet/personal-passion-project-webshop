@@ -64,7 +64,7 @@ export default {
                 signed,
                 created: (new Date()).getTime(),
                 bubble: ctx.rootGetters['events/bubble'],
-                status: 'uncompleted',
+                status: 'uncompleted'
             });
 
              // step 2: update signedAmount if necessary
@@ -149,6 +149,7 @@ export default {
             ctx.commit('setCart', []);
             window.localStorage.setItem('cart', JSON.stringify([]));
         } catch(error) {
+            console.error(error);
             ctx.commit('setError', error);
         }
         ctx.commit('setLoading', false);
