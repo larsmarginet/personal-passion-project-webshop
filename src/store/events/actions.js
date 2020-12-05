@@ -28,6 +28,18 @@ export default {
         }
     },
 
+    async loadCurrentSong(ctx) {
+        ctx.commit('setError', null);
+        try {
+            await firebase.eventsCollection.doc(ctx.getters.currentEvent.id).onSnapshot(snapshot => {
+                const event = snapshot.data();
+                ctx.commit('setCurrentSong', event.currentSong);
+            })
+        } catch (error) {
+            ctx.commit('setError', error);
+        }
+    },
+
     async checkSignedAmount(ctx) {
         try {
             await firebase.eventsCollection.doc(ctx.getters.currentEvent.id).onSnapshot(snapshot => {

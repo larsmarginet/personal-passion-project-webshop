@@ -1,7 +1,7 @@
 <template>
     <v-app style="background: #F2F2F2">
         <TheHeader />
-        <v-main class="ma-4">
+        <v-main class="mx-4 mb-4 mt-12">
             <transition name="fade" mode="out-in">
                 <router-view></router-view>
             </transition>

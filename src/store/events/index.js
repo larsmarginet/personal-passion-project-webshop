@@ -7,6 +7,8 @@ export default {
     state: {
         currentTime: null,
         currentEvent: null,
+        currentSong: null,
+        error: null,
         roomId: null,
         bubble: null,
     },

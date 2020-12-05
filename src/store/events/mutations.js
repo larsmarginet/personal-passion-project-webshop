@@ -2,6 +2,12 @@ export default {
     setCurrentTime(state, payload) {
         state.currentTime = payload;
     },
+    setError(state, payload) {
+        state.error = payload;
+    },
+    setCurrentSong(state, payload) {
+        state.currentSong = payload;
+    },
     async setCurrentEvent(state, payload) {
         state.currentEvent = payload;
         await window.localStorage.setItem('event', JSON.stringify(payload));
