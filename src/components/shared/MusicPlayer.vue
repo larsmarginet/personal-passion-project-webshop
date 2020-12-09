@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <div v-if="currentSong" @click="handleDialog">
+    <div >
+        <div v-if="currentSong" tabindex="0" class="music-player" @keypress.enter="handleDialog" @click="handleDialog">
             <infinite-slide-bar class="grey darken-3 mt-14 mx-0 py-2" style="position: fixed; zIndex: 99" >
                 <span class="white--text mb-0 mr-15" v-for="(n, i) in renderAmount" :key="i">{{currentSong.title}}</span>
             </infinite-slide-bar>
@@ -64,3 +64,9 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+.music-player:focus {
+    opacity: .9;
+}
+</style>

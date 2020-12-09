@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div >
         <v-bottom-sheet v-model="modal" scrollable>
             <Alert @dismissed="onDismissed" :text="error" v-if="error"/>
             <v-card class="rounded-t-xl grey lighten-4" height="80vh" v-if="orders.length > 0">
@@ -43,7 +43,7 @@
             </v-card>
         </v-bottom-sheet>
         <v-scroll-y-reverse-transition>
-            <v-card class="primary rounded-0 headline" flat link @click="modal = !modal" v-if="orders.length > 0">
+            <v-card class="primary rounded-0 headline bottom-cart" tabindex="0" flat link @click="modal = !modal" v-if="orders.length > 0" @keypress.enter="modal = !modal">
                 <v-row class="px-6 py-2">
                     <p class="mb-0 white--text"><span class="font-weight-bold">{{totalItems}}</span> items</p>
                     <v-spacer></v-spacer>
@@ -182,5 +182,9 @@ export default {
 
 .swipeout-list-item {
 	flex: 1;
+}
+
+.bottom-cart:focus {
+    background: #56ac77;
 }
 </style>

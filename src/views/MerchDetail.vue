@@ -23,7 +23,7 @@
                         <v-row class="mx-0 mt-2" justify="space-between" v-if="currentItem.options.length > 0">
                             <p class="subtitle-1">Options</p>
                             <div class="options">
-                                <label class="options-label" v-for="(option, i) in currentItem.options" :key="i" :for="`${id}-${option.option}`"> 
+                                <label class="options-label" v-for="(option, i) in currentItem.options" :key="i" :for="`${id}-${option.option}`" tabindex="0"> 
                                     <input type="radio" class="options-radio" :id="`${id}-${option.option}`" name="options" :value="option.option" v-model="selectedOption" :disabled="option.quantity < 1" @change="handleSelectedOption"/>
                                     <span class="options-option">{{option.option}}</span>
                                 </label>
