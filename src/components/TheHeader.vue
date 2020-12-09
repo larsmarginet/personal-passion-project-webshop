@@ -12,7 +12,7 @@
                 </v-toolbar-title>
             </router-link>
             <v-spacer></v-spacer>
-            <router-link to="/merch/cart" class="px-0" text fab small v-if="shop">
+            <router-link to="/merch/cart" class="px-0" v-if="shop">
                 <v-badge bottom color="orange" :content="cartAmount" offset-x="15" offset-y="15" v-if="cartAmount > 0">
                     <v-icon large dark>shopping_cart</v-icon>
                 </v-badge>

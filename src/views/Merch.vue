@@ -13,6 +13,7 @@
         <v-row v-else-if="!loading && merch">
             <v-col cols="12" class="pb-0">
                 <v-row>
+                    <h3 style="display: none">Filter</h3>
                     <v-icon class="primary--text mr-2">filter_list</v-icon>
                     <label :for="category.category" class="filter mr-2" v-for="(category,i) in categories" :key="i">
                         <input type="checkbox" :id="category.category" class="filter-input" @click="handleFilter(category.category)" @keypress.enter="handleFilter(category.id)">
@@ -26,7 +27,7 @@
             <v-col class="pt-0">
                 <transition-group name="list" tag="div" class="row">
                     <v-col cols="12" sm="6" md="4" lg="3" v-for="item in filteredMerch" :key="item.id">
-                            <MerchCard :item="item"/>
+                        <MerchCard :item="item"/>
                     </v-col>
                 </transition-group>
             </v-col>
