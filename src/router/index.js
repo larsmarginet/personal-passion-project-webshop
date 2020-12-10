@@ -11,7 +11,7 @@ const routes = [
     name: 'Home',
     meta: { 
       title: metaData.home.title,
-      description: metaData.home.description,
+      metaTags: metaData.home.metaTags,
       requiresAuth: true 
     },
     component: () => import(/* webpackChunkName: "Home" */ '../views/Home.vue')
@@ -25,7 +25,7 @@ const routes = [
     name: 'Menu',
     meta: {
       title: metaData.menu.title,
-      description: metaData.menu.description,
+      metaTags: metaData.menu.metaTags,
       requiresAuth: true 
     },
     component: () => import(/* webpackChunkName: "Menu" */ '../views/Menu.vue')
@@ -35,7 +35,7 @@ const routes = [
     name: 'Merch',
     meta: {
       title: metaData.merch.title,
-      description: metaData.merch.description,
+      metaTags: metaData.merch.metaTags,
       requiresAuth: true 
     },
     component: () => import(/* webpackChunkName: "Merch" */ '../views/Merch.vue')
@@ -45,7 +45,7 @@ const routes = [
     name: 'MerchCart',
     meta: {
       title: metaData.cart.title,
-      description: metaData.cart.description,
+      metaTags: metaData.cart.metaTags,
       requiresAuth: true 
     },
     component: () => import(/* webpackChunkName: "MerchCart" */ '../views/MerchCart.vue')
@@ -56,7 +56,7 @@ const routes = [
     props: true,
     meta: {
       title: metaData.merch.title,
-      description: metaData.merch.description,
+      metaTags: metaData.merch.metaTags,
       requiresAuth: true 
     },
     component: () => import(/* webpackChunkName: "MerchDetail" */ '../views/MerchDetail.vue')
@@ -66,7 +66,7 @@ const routes = [
     name: 'NoEvent',
     meta: {
       title: metaData.noEvent.title,
-      description: metaData.noEvent.description,
+      metaTags: metaData.noEvent.metaTags,
     },
     component: () => import(/* webpackChunkName: "NoEvent" */ '../views/NoEvent.vue')
   },
@@ -75,7 +75,7 @@ const routes = [
     name: 'EventOver',
     meta: {
       title: metaData.eventOver.title,
-      description: metaData.eventOver .description,
+      metaTags: metaData.eventOver.metaTags,
     },
     component: () => import(/* webpackChunkName: "EventOver" */ '../views/EventOver.vue')
   },
@@ -127,10 +127,10 @@ router.beforeEach(async (to, _, next) => {
 });
 
 const setMetaData = (title, meta) =>  {
-  if(title) document.title = `concery - ${title.meta.title}`;
+  if (title) document.title = `concery - ${title.meta.title}`;
   // remove existing meta tags
   Array.from(document.querySelectorAll('[data-vue-router-controlled]')).map(el => el.parentNode.removeChild(el));
-  if(meta) {
+  if (meta) {
     meta.meta.metaTags.map(tagDef => {
       const tag = document.createElement('meta');
       Object.keys(tagDef).forEach(key => {

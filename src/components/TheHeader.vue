@@ -3,7 +3,7 @@
         <v-app-bar app color="primary" flat>
             <v-progress-linear :active="loadingComponent" :indeterminate="loadingComponent" absolute bottom color="light-blue accent-4"></v-progress-linear>
             <v-avatar size="40">
-                <img :src="event.bandLogo" :alt="event.bandName" v-if="event" >
+                <img :src="event.bandLogo" :alt="event.bandName" v-if="event" width="40" height="40">
             </v-avatar>
             <v-spacer></v-spacer>
             <router-link to="/">

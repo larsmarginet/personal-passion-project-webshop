@@ -13,19 +13,19 @@
                 </v-card-title>
                 <v-card-text class="pb-12">
                    <v-row justify="center">
-                        <v-btn fab depressed x-small :href="currentSong.itunes" class="mx-2" target="_blank" v-if="currentSong && currentSong.itunes">
+                        <v-btn fab depressed x-small :href="currentSong.itunes" class="mx-2" target="_blank" rel="noreferrer" v-if="currentSong && currentSong.itunes">
                             <img src="@/assets/itunes.svg" alt="apple music logo"/>
                         </v-btn>
-                        <v-btn fab depressed x-small :href="currentSong.spotify" class="mx-2" target="_blank" v-if="currentSong && currentSong.spotify">
+                        <v-btn fab depressed x-small :href="currentSong.spotify" class="mx-2" target="_blank" rel="noreferrer" v-if="currentSong && currentSong.spotify">
                             <img src="@/assets/spotify.svg" alt="spotify logo"/>
                         </v-btn>
-                        <v-btn fab depressed x-small :href="currentSong.youtube" class="mx-2" target="_blank" v-if="currentSong && currentSong.youtube">
+                        <v-btn fab depressed x-small :href="currentSong.youtube" class="mx-2" target="_blank" rel="noreferrer" v-if="currentSong && currentSong.youtube">
                             <img src="@/assets/youtube.svg" alt="youtube logo"/>
                         </v-btn>
-                        <v-btn fab depressed x-small :href="currentSong.soundcloud" class="mx-2" target="_blank" v-if="currentSong && currentSong.soundcloud">
+                        <v-btn fab depressed x-small :href="currentSong.soundcloud" class="mx-2" target="_blank" rel="noreferrer" v-if="currentSong && currentSong.soundcloud">
                             <img src="@/assets/soundcloud.svg" alt="soundcloud logo"/>
                         </v-btn>
-                        <v-btn fab depressed x-small :href="currentSong.shop" class="mx-2" target="_blank" v-if="currentSong && currentSong.shop">
+                        <v-btn fab depressed x-small :href="currentSong.shop" class="mx-2" target="_blank" rel="noreferrer" v-if="currentSong && currentSong.shop">
                             <img src="@/assets/shop.svg" alt="shop logo"/>
                         </v-btn>
                    </v-row>
